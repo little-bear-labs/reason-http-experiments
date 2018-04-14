@@ -15,10 +15,7 @@ class type serverResponse =
 module ServerResponse: {
   type t = serverResponse;
   [@bs.send.pipe: Js.t(t)]
-  external on :
-    ([@bs.string] [ | `close(unit => unit) | `finish(unit => unit)]) =>
-    Js.t(t) =
-    "";
+  external on : ([@bs.string] [ | `finish(unit => unit)]) => Js.t(t) = "";
 };
 
 type server;

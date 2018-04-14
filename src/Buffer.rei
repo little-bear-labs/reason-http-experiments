@@ -1,0 +1,3 @@
+class type buffer =
+  [@bs]
+  {};

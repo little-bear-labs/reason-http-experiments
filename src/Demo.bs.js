@@ -4,12 +4,15 @@
 var Http = require("http");
 
 var server = Http.createServer((function (req, res) {
-        console.log("Sup I be here");
-        res.on("close", (function () {
-                  console.log("Close");
+        req.on("close", (function () {
+                console.log("readable close");
+                return /* () */0;
+              }));
+        res.on("finish", (function () {
+                  console.log("Finish");
                   return /* () */0;
-                })).on("finish", (function () {
-                console.log("Finish");
+                })).on("end", (function () {
+                console.log("the end");
                 return /* () */0;
               }));
         res.writeHead(200, null, null);
