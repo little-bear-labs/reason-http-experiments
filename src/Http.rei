@@ -8,10 +8,17 @@ class type serverResponse =
   [@bs]
   {
     inherit Stream.writableStream;
-    pub nutbar: unit => unit;
     pub writeHead:
       (int, Js.nullable(string), Js.nullable(Js.Dict.t(Js.Json.t))) => unit
   };
+
+module ServerResponse: {
+  [@bs.send.pipe: Js.t(serverResponse)]
+  external on :
+    ([@bs.string] [ | `close(unit => unit) | `finish(unit => unit)]) =>
+    Js.t(serverResponse) =
+    "";
+};
 
 type server;
 
