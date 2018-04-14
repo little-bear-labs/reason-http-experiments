@@ -27,11 +27,11 @@ module WritableStream: {
     (
     [@bs.string]
     [
-      | `close(unit => unit)
-      | `drain(unit => unit)
-      | `finish(unit => unit)
-      | `pipe(Js.t(readableStream) => unit)
-      | `unpipe(Js.t(readableStream) => unit)
+      | `close(unit => 'a)
+      | `drain(unit => 'a)
+      | `finish(unit => 'a)
+      | `pipe(Js.t(readableStream) => 'a)
+      | `unpipe(Js.t(readableStream) => 'a)
     ]
     ) =>
     t =
