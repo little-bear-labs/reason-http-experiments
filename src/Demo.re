@@ -9,7 +9,8 @@ let server =
          `data(
            out =>
              switch (classifyDataOutput(out)) {
-             | Buf(buf) => Js.log("got buffer")
+             | Buf(buf) =>
+               Js.log("got buffer" ++ BsNode.NodeBuffer.toString(buf))
              | Str(str) => Js.log("got string" ++ str)
              | JsType(Js.Types.JSString(str)) => Js.log("got string" ++ str)
              | _ => Js.log("unkonwn type")

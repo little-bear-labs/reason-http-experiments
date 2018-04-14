@@ -11,7 +11,11 @@
   ],
   "author": "",
   "license": "MIT",
+  "bs-dependencies": ["bs-node"],
   "devDependencies": {
     "bs-platform": "^2.2.3"
+  },
+  "dependencies": {
+    "bs-node": "buckletypes/bs-node"
   }
 }

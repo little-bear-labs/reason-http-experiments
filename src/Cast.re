@@ -1,9 +1,9 @@
 open Stream;
 
-external toBuffer : 'a => Node.Buffer.t = "%identity";
+external toBuffer : 'a => BsNode.NodeBuffer.t = "%identity";
 
 type bufferClassification =
-  | Buf(Node.Buffer.t)
+  | Buf(BsNode.NodeBuffer.t)
   | Str(string)
   | JsType(Js.Types.tagged_t);
 

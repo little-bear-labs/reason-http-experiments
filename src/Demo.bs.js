@@ -9,7 +9,7 @@ var server = Http.createServer((function (req, res) {
                 var match = Cast$MyFirstApp.classifyDataOutput(out);
                 switch (match.tag | 0) {
                   case 0 : 
-                      console.log("got buffer");
+                      console.log("got buffer" + match[0].toString());
                       return /* () */0;
                   case 1 : 
                       console.log("got string" + match[0]);
