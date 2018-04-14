@@ -1,15 +1,29 @@
 open Http;
 
+open Cast;
+
 let server =
   createServer((req, res) => {
-    req |> Stream.ReadableStream.on(`close(() => Js.log("readable close")));
+    req
+    |> Stream.ReadableStream.on(
+         `data(
+           out =>
+             switch (classifyDataOutput(out)) {
+             | Buf(buf) => Js.log("got buffer")
+             | Str(str) => Js.log("got string" ++ str)
+             | JsType(Js.Types.JSString(str)) => Js.log("got string" ++ str)
+             | _ => Js.log("unkonwn type")
+             },
+         ),
+       )
+    |> ignore;
     res
     /* |> ServerResponse.on(`close(() => Js.log("Close"))) */
     |> ServerResponse.on(`finish(() => Js.log("Finish")))
     |> Stream.WritableStream.onEnd(() => Js.log("the end"))
     |> ignore;
     let _ = res##writeHead(200, Js.Nullable.null, Js.Nullable.null);
-    let _ = req##pipe(res);
+    /* let _ = req##pipe(res); */
     ();
   });
 

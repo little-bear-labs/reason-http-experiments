@@ -1,3 +1,5 @@
+type dataOut;
+
 class type writableStream =
   [@bs]
   {
@@ -14,25 +16,8 @@ module ReadableStream: {
   type t = Js.t(readableStream);
   [@bs.send.pipe: t]
   external on :
-    (
-    [@bs.string]
-    [
-      | `close(unit => unit)
-      | `data([ | `Str(string) | `Buf(Buffer.buffer)] => unit)
-    ]
-    ) =>
-    t =
+    ([@bs.string] [ | `close(unit => 'a) | `data(dataOut => 'a)]) => t =
     "";
-  /* [@bs.send.pipe: t]
-     external on :
-       (
-       [@bs.string]
-       [
-         | `close
-       ]
-       ) =>
-       t =
-       ""; */
 };
 
 module WritableStream: {
