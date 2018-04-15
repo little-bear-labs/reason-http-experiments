@@ -22,11 +22,39 @@ class type readableStream =
     pub classReadableStream: readableStreamClass
   };
 
+type duplexStreamClass;
+
+class type duplexStream =
+  [@bs]
+  {
+    inherit readableStream;
+    inherit writableStream;
+    pub classDuplexStream: duplexStreamClass
+  };
+
+type transformStreamClass;
+
+class type transformStream =
+  [@bs]
+  {
+    inherit duplexStream;
+    pub classTransformStream: transformStreamClass
+  };
+
+type passThroughClass;
+
+class type passThroughStream =
+  [@bs]
+  {
+    inherit transformStream;
+    pub classPassThroughStream: passThroughClass
+  };
+
 module ReadableStream: {
-  type t = Js.t(readableStream);
   [@bs.send] external isPaused : unit => bool = "";
-  [@bs.send.pipe: t] external pause : unit => Js.t(#readableStream) = "";
-  [@bs.send.pipe: t]
+  [@bs.send.pipe: Js.t(#readableStream)]
+  external pause : unit => Js.t(#readableStream) = "";
+  [@bs.send.pipe: Js.t(#readableStream)]
   external pipe : Js.t(#writableStream) => Js.t(#readableStream) = "";
   [@bs.get]
   external getReadableHighWaterMark : Js.t(#readableStream) => int =
@@ -38,7 +66,7 @@ module ReadableStream: {
   [@bs.get]
   external getReadableLength : Js.t(#readableStream) => int =
     "readableLength";
-  [@bs.send.pipe: t]
+  [@bs.send.pipe: Js.t(#readableStream)]
   external resume : Js.t(#readableStream) => Js.t(#readableStream) = "";
   [@bs.send] external setEncoding : string => Js.t(#readableStream) = "";
   [@bs.send]
@@ -46,8 +74,8 @@ module ReadableStream: {
     (Js.t(#readableStream), Js.t(#writableStream), unit) =>
     Js.t(readableStream) =
     "";
-  [@bs.send] external unpipeAll : Js.t(readableStream) => unit = "unpipe";
-  [@bs.send.pipe: t]
+  [@bs.send] external unpipeAll : Js.t(#readableStream) => unit = "unpipe";
+  [@bs.send.pipe: Js.t(#readableStream)]
   external on :
     (
     [@bs.string]
@@ -58,14 +86,13 @@ module ReadableStream: {
       | `readable(unit => unit)
     ]
     ) =>
-    t =
+    Js.t(#readableStream) =
     "";
   [@bs.send.pipe: Js.t(#readableStream)]
   external onEnd : ([@bs.as "end"] _, unit => unit) => 'a = "on";
 };
 
 module WritableStream: {
-  type t = Js.t(writableStream);
   [@bs.send] external cork : Js.t(#writableStream) => unit = "";
   [@bs.send] external endStream : Js.t(#writableStream) => unit = "end";
   [@bs.send] external uncork : Js.t(#writableStream) => unit = "";
@@ -116,7 +143,7 @@ module WritableStream: {
     bool =
     "write";
   external destroy : (Js.t(#writableStream), Js.Exn.t) => unit = "";
-  [@bs.send.pipe: t]
+  [@bs.send.pipe: Js.t(#writableStream)]
   external on :
     (
     [@bs.string]
