@@ -7,15 +7,17 @@ class type incomingRequest =
 class type serverResponse =
   [@bs]
   {
-    inherit Stream.writableStream;
-    pub writeHead:
-      (int, Js.nullable(string), Js.nullable(Js.Dict.t(Js.Json.t))) => unit
+    inherit Stream.writableStream
   };
 
 module ServerResponse: {
-  type t = serverResponse;
-  [@bs.send.pipe: Js.t(t)]
-  external on : ([@bs.string] [ | `finish(unit => 'a)]) => Js.t(t) = "";
+  type t = Js.t(serverResponse);
+  [@bs.send.pipe: t]
+  external writeHead :
+    (int, Js.nullable(string), Js.nullable(Js.Dict.t(Js.Json.t))) => unit =
+    "";
+  [@bs.send.pipe: t]
+  external on : ([@bs.string] [ | `finish(unit => 'a)]) => t = "";
 };
 
 type server;

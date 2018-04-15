@@ -2,41 +2,19 @@
 'use strict';
 
 var Http = require("http");
-var Cast$MyFirstApp = require("./Cast.bs.js");
 
 var server = Http.createServer((function (req, res) {
-        req.on("data", (function (out) {
-                var match = Cast$MyFirstApp.classifyDataOutput(out);
-                switch (match.tag | 0) {
-                  case 0 : 
-                      console.log("got buffer" + match[0].toString());
+        req.pipe(res);
+        res.on("close", (function () {
+                      console.log("Close");
                       return /* () */0;
-                  case 1 : 
-                      console.log("got string" + match[0]);
-                      return /* () */0;
-                  case 2 : 
-                      var match$1 = match[0];
-                      if (typeof match$1 === "number") {
-                        console.log("unkonwn type");
-                        return /* () */0;
-                      } else if (match$1.tag === 1) {
-                        console.log("got string" + match$1[0]);
-                        return /* () */0;
-                      } else {
-                        console.log("unkonwn type");
-                        return /* () */0;
-                      }
-                  
-                }
-              }));
-        res.on("finish", (function () {
-                  console.log("Finish");
+                    })).on("finish", (function () {
+                    console.log("Finish");
+                    return /* () */0;
+                  })).on("end", (function () {
+                  console.log("the end");
                   return /* () */0;
-                })).on("end", (function () {
-                console.log("the end");
-                return /* () */0;
-              }));
-        res.writeHead(200, null, null);
+                })).writeHead(200, null, null);
         return /* () */0;
       }));
 
