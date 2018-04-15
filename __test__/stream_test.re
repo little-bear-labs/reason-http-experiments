@@ -9,6 +9,11 @@ open Cast;
 describe("Stream", () => {
   open Expect;
   open! Expect.Operators;
+  test("pause/unpause", () => {
+    let subject = createPassThroughStream();
+    subject |> ReadableStream.resume() |> ReadableStream.pause() |> ignore;
+    expect(ReadableStream.isPaused(subject)) |> toBe(true);
+  });
   testAsync("Pipe data through stream", finish => {
     let subject = createPassThroughStream();
     let dest = createPassThroughStream();

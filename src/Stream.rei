@@ -51,7 +51,7 @@ class type passThroughStream =
   };
 
 module ReadableStream: {
-  [@bs.send] external isPaused : unit => bool = "";
+  [@bs.send] external isPaused : Js.t(#readableStream) => bool = "";
   [@bs.send.pipe: Js.t(#readableStream)]
   external pause : unit => Js.t(#readableStream) = "";
   [@bs.send]
@@ -69,7 +69,7 @@ module ReadableStream: {
   external getReadableLength : Js.t(#readableStream) => int =
     "readableLength";
   [@bs.send.pipe: Js.t(#readableStream)]
-  external resume : Js.t(#readableStream) => Js.t(#readableStream) = "";
+  external resume : unit => Js.t(#readableStream) = "";
   [@bs.send] external setEncoding : string => Js.t(#readableStream) = "";
   [@bs.send]
   external unpipe :

@@ -8,6 +8,11 @@ var Stream = require("stream");
 var Cast$MyFirstApp = require("../src/Cast.bs.js");
 
 describe("Stream", (function () {
+        Jest.test("pause/unpause", (function () {
+                var subject = new Stream.PassThrough();
+                subject.resume().pause();
+                return Jest.Expect[/* toBe */2](/* true */1, Jest.Expect[/* expect */0](+subject.isPaused()));
+              }));
         return Jest.testAsync(/* None */0, "Pipe data through stream", (function (finish) {
                       var subject = new Stream.PassThrough();
                       var dest = new Stream.PassThrough();
