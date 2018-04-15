@@ -3,8 +3,7 @@
 
 var Http = require("http");
 
-var server = Http.createServer((function (req, res) {
-        req.pipe(res);
+var server = Http.createServer((function (_, res) {
         res.on("close", (function () {
                       console.log("Close");
                       return /* () */0;
@@ -15,6 +14,9 @@ var server = Http.createServer((function (req, res) {
                   console.log("the end");
                   return /* () */0;
                 })).writeHead(200, undefined, undefined);
+        console.log(/* () */0);
+        +res.write("yo I am the data", "ascii");
+        res.end();
         return /* () */0;
       }));
 

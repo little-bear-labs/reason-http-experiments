@@ -19,14 +19,23 @@ let server =
             ),
           )
        |> ignore; */
-    req |> Stream.ReadableStream.(pipe(res)) |> ignore;
-    res
-    |> Stream.WritableStream.on(`close(() => Js.log("Close")))
-    |> ServerResponse.on(`finish(() => Js.log("Finish")))
-    |> Stream.WritableStream.onEnd(() => Js.log("the end"))
-    |> ServerResponse.writeHead(~status=200, ())
-    |> ignore;
+    /* req |> ReadableStream.(pipe(res)) |> ignore; */
+    let out =
+      res
+      |> WritableStream.on(`close(() => Js.log("Close")))
+      |> ServerResponse.on(`finish(() => Js.log("Finish")))
+      |> WritableStream.onEnd(() => Js.log("the end"))
+      |> ServerResponse.writeHead(~status=200, ());
+    Js.log(out);
     /* let _ = req##pipe(res); */
+    let _ =
+      WritableStream.writeString(
+        res,
+        ~data="yo I am the data",
+        ~encoding=`ascii,
+        (),
+      );
+    let _ = WritableStream.endStream(res);
     ();
   });
 
