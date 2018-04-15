@@ -160,3 +160,6 @@ module WritableStream: {
   [@bs.send.pipe: Js.t(#writableStream)]
   external onEnd : ([@bs.as "end"] _, unit => unit) => 'a = "on";
 };
+
+[@bs.new] [@bs.module "stream"]
+external createPassThroughStream : unit => passThroughStream = "PassThrough";
