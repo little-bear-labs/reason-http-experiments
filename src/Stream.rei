@@ -54,8 +54,10 @@ module ReadableStream: {
   [@bs.send] external isPaused : unit => bool = "";
   [@bs.send.pipe: Js.t(#readableStream)]
   external pause : unit => Js.t(#readableStream) = "";
-  [@bs.send.pipe: Js.t(#readableStream)]
-  external pipe : Js.t(#writableStream) => Js.t(#readableStream) = "";
+  [@bs.send]
+  external pipe :
+    (Js.t(#readableStream), Js.t(#writableStream)) => Js.t(#readableStream) =
+    "";
   [@bs.get]
   external getReadableHighWaterMark : Js.t(#readableStream) => int =
     "readableHighWaterMark";
@@ -162,4 +164,5 @@ module WritableStream: {
 };
 
 [@bs.new] [@bs.module "stream"]
-external createPassThroughStream : unit => passThroughStream = "PassThrough";
+external createPassThroughStream : unit => Js.t(passThroughStream) =
+  "PassThrough";

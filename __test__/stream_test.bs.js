@@ -3,16 +3,29 @@
 
 var Jest = require("@glennsl/bs-jest/src/jest.js");
 var Curry = require("bs-platform/lib/js/curry.js");
+var Js_exn = require("bs-platform/lib/js/js_exn.js");
+var Stream = require("stream");
+var Cast$MyFirstApp = require("../src/Cast.bs.js");
 
-describe("Expect", (function () {
-        return Jest.test("toBe", (function () {
-                      return Jest.Expect[/* toBe */2](3, Jest.Expect[/* expect */0](3));
-                    }));
-      }));
-
-describe("Expect.Operators", (function () {
-        return Jest.test("==", (function () {
-                      return Curry._2(Jest.Expect[/* Operators */24][/* == */0], Jest.Expect[/* expect */0](3), 3);
+describe("Stream", (function () {
+        return Jest.testAsync(/* None */0, "Pipe data through stream", (function (finish) {
+                      var subject = new Stream.PassThrough();
+                      var dest = new Stream.PassThrough();
+                      var fixture = "I am the string";
+                      subject.pipe(dest);
+                      +subject.write(fixture, undefined);
+                      dest.on("data", (function (out) {
+                              var match = Cast$MyFirstApp.classifyDataOutput(out);
+                              switch (match.tag | 0) {
+                                case 0 : 
+                                    return Curry._1(finish, Jest.Expect[/* toEqual */12](fixture, Jest.Expect[/* expect */0](match[0].toString())));
+                                case 1 : 
+                                case 2 : 
+                                    return Js_exn.raiseError("Did not get buffer");
+                                
+                              }
+                            }));
+                      return /* () */0;
                     }));
       }));
 
