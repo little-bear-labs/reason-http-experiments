@@ -14,7 +14,7 @@ var server = Http.createServer((function (req, res) {
                   })).on("end", (function () {
                   console.log("the end");
                   return /* () */0;
-                })).writeHead(200, null, null);
+                })).writeHead(200, undefined, undefined);
         return /* () */0;
       }));
 

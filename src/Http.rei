@@ -14,7 +14,13 @@ module ServerResponse: {
   type t = Js.t(serverResponse);
   [@bs.send.pipe: t]
   external writeHead :
-    (int, Js.nullable(string), Js.nullable(Js.Dict.t(Js.Json.t))) => unit =
+    (
+      ~status: int,
+      ~message: string=?,
+      ~headers: Js.Dict.t(Js.Json.t)=?,
+      unit
+    ) =>
+    unit =
     "";
   [@bs.send.pipe: t]
   external on : ([@bs.string] [ | `finish(unit => 'a)]) => t = "";

@@ -29,8 +29,10 @@ module ReadableStream: {
   [@bs.send] external setEncoding : string => Js.t(#readableStream) = "";
   [@bs.send]
   external unpipe :
-    Js.Undefined.t(Js.t(#writableStream)) => Js.t(readableStream) =
+    (Js.t(#readableStream), Js.t(#writableStream), unit) =>
+    Js.t(readableStream) =
     "";
+  [@bs.send] external unpipeAll : Js.t(readableStream) => unit = "unpipe";
   [@bs.send.pipe: t]
   external on :
     (

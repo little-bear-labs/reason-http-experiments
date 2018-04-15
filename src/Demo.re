@@ -1,8 +1,8 @@
 open Http;
 
-/* open Cast; */
-module type MyModule = {let f1: int => bool; let f2: bool => int;};
+open Stream;
 
+/* open Cast; */
 let server =
   createServer((req, res) => {
     /* req
@@ -19,13 +19,12 @@ let server =
             ),
           )
        |> ignore; */
-    Stream.ReadableStream.(req |> pipe(res) |> ignore);
-    /* req |> Stream.ReadableStream.(Stream.ReadableStream.pipe(res) |> ignore; */
+    req |> Stream.ReadableStream.(pipe(res)) |> ignore;
     res
     |> Stream.WritableStream.on(`close(() => Js.log("Close")))
     |> ServerResponse.on(`finish(() => Js.log("Finish")))
     |> Stream.WritableStream.onEnd(() => Js.log("the end"))
-    |> ServerResponse.writeHead(200, Js.Nullable.null, Js.Nullable.null)
+    |> ServerResponse.writeHead(~status=200, ())
     |> ignore;
     /* let _ = req##pipe(res); */
     ();
